@@ -1,19 +1,58 @@
 @charset "UTF-8";
-@font-face {
-  font-family: "Baloo 2";
-  font-style: normal;
-  font-weight: normal;
-  src: local("Baloo 2 Regular"), local("Baloo-2-Regular"), url("../../fonts/baloo-2-v1-latin-regular.woff2") format("woff2");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Baloo 2";
-  font-style: normal;
-  font-weight: 500;
-  src: local("Baloo 2 Medium"), local("Baloo-2-Medium"), url("../../fonts/baloo-2-v1-latin-500.woff2") format("woff2");
-  font-display: swap;
-}
+
+/* GLOBAL VARIABLES */
 :root {
+  /* Typography */
+  /* Font Faces */
+  --font-stack-default: system-ui, sans-serif;
+
+  /* Font Weights */
+  --fw-medium: 500;
+
+  /* Fluid Font Sizes -> https://utopia.fyi/ */
+  --fs-tiny: clamp(0.6944rem, 0.6808rem + 0.0681vi, 0.72rem);
+  --fs-small: clamp(0.8333rem, 0.7978rem + 0.1778vi, 0.9rem);
+  --fs-default: clamp(1rem, 0.9333rem + 0.3333vi, 1.125rem);
+  --fs-medium: clamp(1.2rem, 1.09rem + 0.55vi, 1.4063rem);
+  --fs-large: clamp(1.44rem, 1.2705rem + 0.8475vi, 1.7578rem);
+  --fs-xlarge: clamp(1.728rem, 1.4777rem + 1.2514vi, 2.1973rem);
+  --fs-2xlarge: clamp(2.0736rem, 1.7147rem + 1.7946vi, 2.7466rem);
+  --fs-3xlarge: clamp(2.4883rem, 1.9844rem + 2.5198vi, 3.4332rem);
+  --fs-huge: clamp(3rem, 1.4rem + 8vi, 6rem);
+
+  /* Spacing -> https://utopia.fyi/ */
+  --space-tiny: clamp(0.25rem, 0.2167rem + 0.1667vi, 0.3125rem);
+  --space-xsmall: clamp(0.5rem, 0.4667rem + 0.1667vi, 0.5625rem);
+  --space-small: clamp(0.75rem, 0.6833rem + 0.3333vi, 0.875rem);
+  --space-default: clamp(1rem, 0.9333rem + 0.3333vi, 1.125rem);
+  --space-medium: clamp(1.5rem, 1.4rem + 0.5vi, 1.6875rem);
+  --space-large: clamp(2rem, 1.8667rem + 0.6667vi, 2.25rem);
+  --space-xlarge: clamp(3rem, 2.8rem + 1vi, 3.375rem);
+  --space-2xlarge: clamp(4rem, 3.7333rem + 1.3333vi, 4.5rem);
+  --space-3xlarge: clamp(6rem, 5.6rem + 2vi, 6.75rem);
+
+  /* Borders & Radii */
+  --border: 1px;
+  --border-2: 2px;
+  --border-4: 4px;
+  --border-8: 8px;
+
+  --radius-s: 0.125rem;
+  --radius-normal: 0.25rem;
+  --radius-m: 0.375rem;
+  --radius-l: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-s: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-normal: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-m: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-l: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Colors */
   --color-primary: #3a00ff;
   --color-primary-alt: #6f6ffd;
   --color-secondary: #d42257;
@@ -21,20 +60,9 @@
   --color-text: #412d86;
   --color-light: #fff;
   --color-anchor: #3a00ff;
-  --font-family: "Baloo 2", sans-serif;
-  --font-weight-strong: 500;
-  --font-size-h1: 6rem;
-  --font-size-h2: 3rem;
-  --font-size-h3: 2rem;
-  --font-size-h4: 1.35rem;
-  --font-size-text: 1.15rem;
-  --border-radius: 8px;
 }
 
-/*
- * [Modified] Modern CSS Reset
- * @link https://github.com/hankchizljaw/modern-css-reset
-*/
+/* RESET -> https://piccalil.li/blog/a-more-modern-css-reset/ */
 /* Box sizing rules */
 *,
 *::before,
@@ -42,34 +70,64 @@
   box-sizing: border-box;
 }
 
-/* Remove default margin */
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove default margin in favour of better control in authored CSS */
 body,
 h1,
 h2,
 h3,
 h4,
-h5,
-h6 {
+p,
+figure,
+blockquote,
+dl,
+dd {
   margin: 0;
-}
-
-html {
-  overflow-x: hidden;
+  padding: 0
 }
 
 /* Set core body defaults */
 body {
   min-height: 100vh;
-  font-size: 100%;
   line-height: 1.5;
-  text-rendering: optimizeSpeed;
-  overflow-x: hidden;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
 }
 
 /* Make images easier to work with */
-img {
-  display: block;
+img,
+picture {
   max-width: 100%;
+  display: block;
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -78,6 +136,11 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
 }
 
 /* Remove all animations and transitions for people that prefer not to see them */
@@ -89,6 +152,60 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/* BASE STYLES */
+body {
+  font-family: var(--font-stack-default);
+  font-size: var(--fs-default);
+}
+
+:is(h1, h2, h3, h4) {
+  font-weight: var(--fw-medium);
+}
+
+h1 {
+  font-size: var(--fs-huge);
+}
+
+h2 {
+  font-size: var(--fs-2xlarge);
+}
+
+h3 {
+  font-size: var(--fs-large);
+}
+
+h4 {
+  font-size: var(--fs-medium);
+}
+
+:is(header > .container, section)>*+* {
+  margin-top: var(--flow-space, 1em);
+}
+
+/* UTILITIES */
+/* Container / Wrapper -> https://smolcss.dev/#smol-container */
+.container {
+  width: min(100% - 3rem, var(--container-max, 80ch));
+  margin-inline: auto;
+}
+
+/* Visually Hide Skip Link */
+.skip-link {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+
+/* ORIGINAL */
+/*
 h1,
 h2,
 h3,
@@ -133,14 +250,16 @@ p {
   margin: 0 0 1rem;
 }
 
-article .container > ul:not(.features) > li + li,
-article .container > ol > li + li {
+article .container>ul:not(.features)>li+li,
+article .container>ol>li+li {
   margin-top: 1rem;
 }
-article .container * + h2 {
+
+article .container *+h2 {
   margin-top: 4rem;
 }
-article .container * + h3 {
+
+article .container *+h3 {
   margin-top: 2rem;
 }
 
@@ -161,18 +280,22 @@ blockquote {
   margin: 3rem 0;
   color: var(--color-primary);
 }
-blockquote > * {
+
+blockquote>* {
   grid-area: blockquote;
 }
+
 blockquote p {
   position: relative;
   font-size: var(--font-size-h4);
   margin-bottom: 0;
   padding: 0.5em;
 }
+
 blockquote p strong {
   font-size: 1.15em;
 }
+
 blockquote::before {
   position: absolute;
   top: 0;
@@ -184,6 +307,7 @@ blockquote::before {
   transform: scale(1.1);
   content: "";
 }
+
 blockquote::after {
   grid-area: blockquote;
   color: #6f6ffd;
@@ -197,6 +321,7 @@ blockquote::after {
   transform: translate(25%, 50%) rotate(-5deg);
   transform-origin: bottom right;
 }
+
 @media (max-width: 60rem) {
   blockquote::after {
     transform: translate(25%, 55%) rotate(-5deg);
@@ -219,9 +344,11 @@ main {
   padding-top: 5vh;
   padding-bottom: 5vh;
 }
+
 main:focus {
   outline: none;
 }
+
 main h3 {
   color: var(--color-primary);
 }
@@ -270,6 +397,7 @@ header {
   color: var(--color-primary);
   text-align: center;
 }
+
 header h1 {
   display: inline-grid;
   min-height: var(--logomark-height);
@@ -278,6 +406,7 @@ header h1 {
   box-shadow: 0.12em 0.12em var(--color-secondary);
   place-content: center;
 }
+
 header h2 {
   max-width: 30ch;
 }
@@ -290,6 +419,7 @@ nav ul {
   padding: 0;
   list-style: none;
 }
+
 nav ul a {
   display: inline-grid;
   padding: 0.5rem;
@@ -297,6 +427,7 @@ nav ul a {
   font-size: 1.25rem;
   text-decoration: none;
 }
+
 nav ul a::before {
   width: 100%;
   height: 0.33em;
@@ -304,9 +435,12 @@ nav ul a::before {
   opacity: 0.15;
   content: "";
 }
-nav ul a:hover::before, nav ul a:focus::before {
+
+nav ul a:hover::before,
+nav ul a:focus::before {
   opacity: 1;
 }
+
 nav ul li {
   margin: 0.25rem;
 }
@@ -314,6 +448,7 @@ nav ul li {
 #about section:nth-child(2) {
   position: relative;
 }
+
 #about section:nth-child(2) p:nth-of-type(2) {
   align-self: center;
   margin-top: 2rem;
@@ -322,6 +457,7 @@ nav ul li {
   font-weight: var(--font-weight-strong);
   text-align: center;
 }
+
 #about section:nth-child(2) ul {
   display: flex;
   flex-wrap: wrap;
@@ -330,11 +466,13 @@ nav ul li {
   padding: 0;
   list-style: none;
 }
+
 #about section:nth-child(2) ul li {
   margin: 0.25em;
   padding: 0.25em 0.5em;
   background-color: var(--color-light);
 }
+
 #about section:nth-child(2)::before {
   position: absolute;
   top: 60%;
@@ -349,6 +487,7 @@ nav ul li {
   content: "";
   z-index: -1;
 }
+
 @media (max-width: 35rem) {
   #about section:nth-child(2)::before {
     transform: scale(2) translate(-25%, -25%);
@@ -360,6 +499,7 @@ nav ul li {
   transform: rotate(-8deg) translateX(-10%);
   background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
 }
+
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   #guidelines h3 {
     -webkit-background-clip: text;
@@ -367,15 +507,18 @@ nav ul li {
     color: transparent;
   }
 }
+
 @media (min-width: 120ch) {
   #guidelines h3 {
     transform: rotate(-8deg) translateX(-30%);
   }
 }
+
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   #guidelines p:nth-of-type(2) {
     position: relative;
   }
+
   #guidelines p:nth-of-type(2)::before {
     position: absolute;
     top: 0;
@@ -390,17 +533,20 @@ nav ul li {
     content: "← Whoa, text gradients!";
   }
 }
-#guidelines .container > a {
+
+#guidelines .container>a {
   align-self: center;
 }
 
 #contribute {
   background: repeating-linear-gradient(-45deg, transparent, transparent 10px, #b3f8f1 10px, #b3f8f1 18px);
 }
+
 #contribute section {
   padding: 2rem;
   background-color: var(--color-background);
 }
+
 #contribute section:nth-child(2) {
   padding-top: 0;
 }
@@ -411,10 +557,12 @@ nav ul li {
   margin: 5vh auto;
   text-align: center;
 }
+
 #files h3 {
   height: 0;
   opacity: 0;
 }
+
 #files .container {
   display: inline-block;
   padding: 5vmin;
@@ -422,9 +570,11 @@ nav ul li {
   background-color: var(--color-background);
   text-align: center;
 }
+
 #files .container a:not(:last-child) {
   margin: 0.5rem;
 }
+
 #files .container a:not(:last-child):not(.link-codepen) {
   font-size: clamp(1.5rem, 4vw, 2rem);
 }
@@ -433,11 +583,8 @@ nav ul li {
   position: relative;
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(25ch, 1fr));
-  /*! 
-    * SVGs from Hero Patterns
-    * @link http://www.heropatterns.com/
-    */
 }
+
 .features li {
   display: grid;
   position: relative;
@@ -447,7 +594,8 @@ nav ul li {
   color: var(--color-light);
   text-align: center;
 }
-.features li > span {
+
+.features li>span {
   display: grid;
   place-content: center;
   padding: 0.5em;
@@ -456,13 +604,15 @@ nav ul li {
   background-color: var(--color-secondary);
   line-height: 1.1;
 }
-.features li > span a {
+
+.features li>span a {
   color: inherit;
   font-size: 1.3rem;
   font-weight: var(--font-weight-strong);
   text-decoration: none;
 }
-.features li > span a::before {
+
+.features li>span a::before {
   position: absolute;
   top: 0;
   left: 0;
@@ -470,7 +620,8 @@ nav ul li {
   height: 100%;
   content: "";
 }
-.features li > span span:nth-child(2) {
+
+.features li>span span:nth-child(2) {
   position: relative;
 }
 
@@ -478,6 +629,7 @@ nav ul li {
   margin: 5vh 0 20vh;
   text-align: center;
 }
+
 #styles h2 {
   color: var(--color-primary);
 }
@@ -487,20 +639,25 @@ nav ul li {
   background-color: var(--color-secondary);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='72' viewBox='0 0 36 72'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.4'%3E%3Cpath d='M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
+
 @media (min-width: 515px) and (max-width: 765px) {
+
   #styles .features li:nth-last-child(1):nth-child(odd),
   .features.patterned li:nth-last-child(1):nth-child(odd) {
     grid-column: span 2;
   }
 }
+
 #styles .features li:nth-child(2),
 .features.patterned li:nth-child(2) {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='24' viewBox='0 0 88 24'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='autumn' fill='%23fff' fill-opacity='0.4'%3E%3Cpath d='M10 0l30 15 2 1V2.18A10 10 0 0 0 41.76 0H39.7a8 8 0 0 1 .3 2.18v10.58L14.47 0H10zm31.76 24a10 10 0 0 0-5.29-6.76L4 1 2 0v13.82a10 10 0 0 0 5.53 8.94L10 24h4.47l-6.05-3.02A8 8 0 0 1 4 13.82V3.24l31.58 15.78A8 8 0 0 1 39.7 24h2.06zM78 24l2.47-1.24A10 10 0 0 0 86 13.82V0l-2 1-32.47 16.24A10 10 0 0 0 46.24 24h2.06a8 8 0 0 1 4.12-4.98L84 3.24v10.58a8 8 0 0 1-4.42 7.16L73.53 24H78zm0-24L48 15l-2 1V2.18A10 10 0 0 1 46.24 0h2.06a8 8 0 0 0-.3 2.18v10.58L73.53 0H78z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
+
 #styles .features li:nth-child(3),
 .features.patterned li:nth-child(3) {
   background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.4'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
+
 #styles .features::after,
 .features.patterned::after {
   position: absolute;
@@ -524,21 +681,25 @@ nav ul li {
   padding: 1.25rem;
   z-index: 1;
 }
+
 .profile h4 {
   margin: 0;
   color: var(--color-secondary);
   text-align: center;
 }
+
 .profile .container {
   display: grid;
   justify-items: center;
   grid-gap: 1rem;
 }
-.profile .container > a {
+
+.profile .container>a {
   min-height: 2em;
   border: 2px solid currentColor;
   color: var(--color-secondary);
 }
+
 .profile ul {
   display: flex;
   flex-wrap: wrap;
@@ -547,22 +708,27 @@ nav ul li {
   padding: 0;
   list-style: none;
 }
+
 .profile ul li {
   display: flex;
   padding: 0.45em;
 }
+
 .profile ul li span:nth-child(1) {
   width: auto;
   margin-right: 0.25em;
   font-weight: var(--font-weight-strong);
 }
+
 .profile ul li span:nth-child(2) {
   flex-grow: 1;
   word-break: break-word;
 }
+
 .profile ul li span:nth-child(2) a {
   color: inherit;
 }
+
 @media (min-width: 180ch) {
   .profile {
     position: fixed;
@@ -574,12 +740,15 @@ nav ul li {
     background-color: var(--color-light);
     box-shadow: 0 2px 5px rgba(58, 0, 255, 0.15);
   }
+
   .profile ul {
     justify-content: unset;
   }
+
   .profile ul li {
     padding: 0;
   }
+
   .profile ul li span:nth-child(1) {
     width: 8ch;
     margin-right: 0;
@@ -597,6 +766,7 @@ nav ul li {
   background-position: center -34px;
   color: var(--color-light);
 }
+
 .page-footer::before {
   display: inline-grid;
   min-height: var(--logomark-height);
@@ -613,19 +783,23 @@ nav ul li {
   font-size: 3rem;
   content: "S";
 }
+
 .page-footer p:first-child {
   margin-top: 3rem;
   font-weight: var(--font-weight-strong);
   letter-spacing: 0.03em;
   text-align: center;
 }
+
 .page-footer p a {
   color: inherit;
 }
+
 .page-footer ul {
   grid-template-columns: repeat(auto-fit, minmax(12ch, auto));
 }
-.page-footer .container > :last-child {
+
+.page-footer .container> :last-child {
   margin-bottom: 0;
 }
 
@@ -640,6 +814,7 @@ nav ul li {
   font-size: 1.125rem;
   overflow: hidden;
 }
+
 .skip-link:focus {
   position: fixed;
   top: 0;
@@ -657,7 +832,7 @@ nav ul li {
 }
 
 [class^=link]:not(.link-codepen),
-.profile .container > a {
+.profile .container>a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -669,14 +844,17 @@ nav ul li {
   text-align: center;
   text-decoration: none;
 }
-[class^=link]:not(.link-codepen):hover, [class^=link]:not(.link-codepen):focus,
-.profile .container > a:hover,
-.profile .container > a:focus {
+
+[class^=link]:not(.link-codepen):hover,
+[class^=link]:not(.link-codepen):focus,
+.profile .container>a:hover,
+.profile .container>a:focus {
   transform: translate(-0.15em, -0.15em);
   box-shadow: 0.3em 0.3em var(--color-secondary);
 }
+
 [class^=link]:not(.link-codepen):focus,
-.profile .container > a:focus {
+.profile .container>a:focus {
   outline-color: transparent;
   outline-style: solid;
 }
@@ -693,6 +871,7 @@ nav ul li {
   margin-top: 3rem;
   font-size: var(--font-size-h4);
 }
+
 .link-codepen::before {
   position: absolute;
   padding-right: 1.25em;
@@ -709,6 +888,7 @@ nav ul li {
 .link-allstyles {
   font-size: var(--font-size-h4);
 }
+
 @media (max-width: 400px) {
   .link-allstyles {
     margin-left: 6rem;
@@ -721,3 +901,4 @@ nav ul li {
   margin-right: 0.25em;
   fill: currentColor;
 }
+*/
