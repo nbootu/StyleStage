@@ -1,10 +1,14 @@
 @charset "UTF-8";
 
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap');
+
 /* GLOBAL VARIABLES */
 :root {
   /* Typography */
   /* Font Faces */
   --font-stack-default: system-ui, sans-serif;
+  --font-stack-decorative: "Tangerine", cursive;
 
   /* Font Weights */
   --fw-medium: 500;
@@ -53,6 +57,30 @@
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 
   /* Colors */
+  --clr-neutral-50: #fafafa;
+  --clr-neutral-100: #f5f5f5;
+  --clr-neutral-200: #e5e5e5;
+  --clr-neutral-300: #d4d4d4;
+  --clr-neutral-400: #a3a3a3;
+  --clr-neutral-500: #737373;
+  --clr-neutral-600: #525252;
+  --clr-neutral-700: #404040;
+  --clr-neutral-800: #262626;
+  --clr-neutral-900: #171717;
+  --clr-neutral-950: #0a0a0a;
+
+  --clr-pink-50: #fdf2f8;
+  --clr-pink-100: #fce7f3;
+  --clr-pink-200: #fbcfe8;
+  --clr-pink-300: #f9a8d4;
+  --clr-pink-400: #f472b6;
+  --clr-pink-500: #ec4899;
+  --clr-pink-600: #db2777;
+  --clr-pink-700: #be185d;
+  --clr-pink-800: #9d174d;
+  --clr-pink-900: #831843;
+  --clr-pink-950: #500724;
+
   --color-primary: #3a00ff;
   --color-primary-alt: #6f6ffd;
   --color-secondary: #d42257;
@@ -117,9 +145,10 @@ h4 {
   text-wrap: balance;
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]) {
+/* A elements get default styles */
+a {
   text-decoration-skip-ink: auto;
+  text-underline-offset: 0.25em;
   color: currentColor;
 }
 
@@ -154,21 +183,28 @@ select {
 }
 
 /* BASE STYLES */
+/* Body defaults */
 body {
   font-family: var(--font-stack-default);
   font-size: var(--fs-default);
+  color: var(--clr-neutral-950);
+  background-color: var(--clr-neutral-50);
 }
 
+/* Heading styles */
 :is(h1, h2, h3, h4) {
   font-weight: var(--fw-medium);
 }
 
 h1 {
+  font-family: var(--font-stack-decorative);
   font-size: var(--fs-huge);
+  font-weight: bold;
 }
 
 h2 {
-  font-size: var(--fs-2xlarge);
+  font-size: var(--fs-xlarge);
+  text-align: center;
 }
 
 h3 {
@@ -179,8 +215,53 @@ h4 {
   font-size: var(--fs-medium);
 }
 
+/* Limit paragraph length for readability */
+p {
+  max-inline-size: 60ch;
+  margin-inline: auto;
+}
+
+/* Link styling */
+/* Icon Links */
+a:has(svg) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  text-decoration: none;
+
+  >* {
+    display: grid;
+    place-content: center;
+  }
+
+  svg {
+    inline-size: 1em;
+    aspect-ratio: 1;
+  }
+}
+
+/* Style unordered lists */
+ul {
+  list-style: none;
+}
+
+/* Flow spacing */
 :is(header > .container, section)>*+* {
   margin-top: var(--flow-space, 1em);
+}
+
+header {
+  --flow-space: 2em;
+}
+
+/* Space out sections */
+section:has(h2) {
+  margin-block-start: var(--space-2xlarge);
+}
+
+section:has(h3) {
+  margin-block-start: var(--space-large);
 }
 
 /* UTILITIES */
@@ -201,6 +282,89 @@ h4 {
   position: absolute;
   width: 1px;
   white-space: nowrap;
+}
+
+/* HEADER */
+header {
+  position: relative;
+  padding-block: var(--space-2xlarge);
+  text-align: center;
+  color: var(--clr-neutral-100);
+  background-image:
+    radial-gradient(circle, hsla(0, 0%, 0%, 1) 0%, hsla(0, 0%, 0%, .7) 100%),
+    url('https://nbootu.ch/stylestage/hero.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 20%;
+  overflow-y: clip;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+  }
+
+  &::before {
+    content: '';
+    top: 2rem;
+    left: -7.5rem;
+    inline-size: 7.5rem;
+    block-size: 2px;
+    background-image: url('https://nbootu.ch/stylestage/shooting-star.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    rotate: 20deg;
+    opacity: .5;
+    animation: 24s shooting-star 3s infinite;
+  }
+
+  &::after {
+    top: 7rem;
+    right: 15rem;
+    animation: 3.1s flicker -1.2s infinite;
+    inline-size: 3px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--clr-neutral-500);
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes shooting-star {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(20deg);
+  }
+
+  10%,
+  100% {
+    transform: translate3d(750px, 270px, 0) rotate(20deg);
+  }
+}
+
+/* NAVIGATION */
+nav>ul {
+  display: flex;
+  justify-content: center;
+  gap: 2ch;
+  flex-wrap: wrap;
+  padding-block: var(--space-2xlarge);
+  font-size: var(--fs-medium);
+
+  a {
+    padding: .5em;
+  }
 }
 
 
