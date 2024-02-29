@@ -69,17 +69,37 @@
   --clr-neutral-900: #171717;
   --clr-neutral-950: #0a0a0a;
 
-  --clr-pink-50: #fdf2f8;
-  --clr-pink-100: #fce7f3;
-  --clr-pink-200: #fbcfe8;
-  --clr-pink-300: #f9a8d4;
-  --clr-pink-400: #f472b6;
-  --clr-pink-500: #ec4899;
-  --clr-pink-600: #db2777;
-  --clr-pink-700: #be185d;
-  --clr-pink-800: #9d174d;
-  --clr-pink-900: #831843;
-  --clr-pink-950: #500724;
+  --clr-teal-50: #f0fdfa;
+  --clr-teal-100: #ccfbf1;
+  --clr-teal-200: #99f6e4;
+  --clr-teal-300: #5eead4;
+  --clr-teal-400: #2dd4bf;
+  --clr-teal-500: #14b8a6;
+  --clr-teal-600: #0d9488;
+  --clr-teal-700: #0f766e;
+  --clr-teal-800: #115e59;
+  --clr-teal-900: #134e4a;
+  --clr-teal-950: #042f2e;
+
+  --clr-green-50: #f0fdf4;
+  --clr-green-100: #dcfce7;
+  --clr-green-200: #bbf7d0;
+  --clr-green-300: #86efac;
+  --clr-green-400: #4ade80;
+  --clr-green-500: #22c55e;
+  --clr-green-600: #16a34a;
+  --clr-green-700: #15803d;
+  --clr-green-800: #166534;
+  --clr-green-900: #14532d;
+  --clr-green-950: #052e16;
+
+  --mesh-gradient: radial-gradient(at 40% 20%, hsla(141, 78%, 85%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(168, 83%, 78%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(141, 69%, 58%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(172, 66%, 50%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(142, 71%, 29%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(174, 83%, 31%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(175, 60%, 19%, 1) 0px, transparent 50%);
 
   --color-primary: #3a00ff;
   --color-primary-alt: #6f6ffd;
@@ -103,6 +123,7 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+  scroll-behavior: smooth;
 }
 
 /* Remove default margin in favour of better control in authored CSS */
@@ -149,7 +170,7 @@ h4 {
 a {
   text-decoration-skip-ink: auto;
   text-underline-offset: 0.25em;
-  color: currentColor;
+  color: var(--link-color, currentColor);
 }
 
 /* Make images easier to work with */
@@ -187,8 +208,8 @@ select {
 body {
   font-family: var(--font-stack-default);
   font-size: var(--fs-default);
-  color: var(--clr-neutral-950);
-  background-color: var(--clr-neutral-50);
+  color: var(--clr-neutral-50);
+  background-color: var(--clr-neutral-950);
 }
 
 /* Heading styles */
@@ -200,9 +221,14 @@ h1 {
   font-family: var(--font-stack-decorative);
   font-size: var(--fs-huge);
   font-weight: bold;
+  color: transparent;
+  background-color: hsla(173, 80%, 40%, 1);
+  background-image: var(--mesh-gradient);
+  background-clip: text;
 }
 
 h2 {
+  margin-block-end: var(--space-large);
   font-size: var(--fs-xlarge);
   text-align: center;
 }
@@ -222,13 +248,23 @@ p {
 }
 
 /* Link styling */
+p,
+ol {
+  --link-color: var(--clr-teal-500);
+}
+
 /* Icon Links */
 a:has(svg) {
+  --icon-color: var(--clr-teal-500);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: .5em;
+  padding: .5em 1.25em;
   text-decoration: none;
+  color: currentColor;
+  outline-offset: 5px;
 
   >* {
     display: grid;
@@ -238,6 +274,7 @@ a:has(svg) {
   svg {
     inline-size: 1em;
     aspect-ratio: 1;
+    fill: var(--icon-color, currentColor);
   }
 }
 
@@ -296,7 +333,7 @@ header {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center 20%;
-  overflow-y: clip;
+  overflow: clip;
 
   &::before,
   &::after {
@@ -326,7 +363,19 @@ header {
     inline-size: 3px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background-color: var(--clr-neutral-500);
+    background-color: var(--clr-neutral-300);
+  }
+
+  a {
+    color: var(--clr-teal-500);
+  }
+
+  .link-github {
+    color: inherit;
+    border-radius: var(--radius-m);
+    background-color: hsla(173.41, 80.39%, 40%, .1);
+    border: var(--border-2) solid hsla(173.41, 80.39%, 40%, .5);
+    backdrop-filter: blur(30px);
   }
 }
 
@@ -349,7 +398,7 @@ header {
 
   10%,
   100% {
-    transform: translate3d(750px, 270px, 0) rotate(20deg);
+    transform: translate3d(800px, 290px, 0) rotate(20deg);
   }
 }
 
@@ -357,19 +406,76 @@ header {
 nav>ul {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 2ch;
   flex-wrap: wrap;
-  padding-block: var(--space-2xlarge);
+  max-inline-size: min(80ch, 90vw);
+  margin: var(--space-2xlarge) auto;
+  padding: var(--space-medium);
   font-size: var(--fs-medium);
+  background-color: var(--clr-neutral-900);
+  border-radius: var(--radius-m);
 
   a {
     padding: .5em;
+    text-decoration: underline;
+    text-decoration-color: var(--clr-teal-950);
+    text-decoration-thickness: 2px;
+    text-underline-offset: .75em;
+    outline-color: var(--clr-teal-500);
+    border-radius: var(--radius-m);
+    transition: text-decoration-color 300ms linear, text-decoration-thickness 300ms linear;
+
+    &:hover,
+    &:focus {
+      text-decoration-color: var(--clr-teal-500);
+      text-decoration-thickness: 4px;
+    }
   }
 }
 
+/* ABOUT */
+#about {
+  ul {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1ch;
+    max-inline-size: 60ch;
+    margin-inline: auto;
 
-/* ORIGINAL */
-/*
+    li {
+      padding: .5em 1.25em;
+      color: var(--clr-teal-50);
+      background-color: var(--clr-teal-900);
+      border-radius: var(--radius-m);
+    }
+  }
+}
+
+/* CONTRIBUTE */
+#contribute {
+  ol {
+    max-inline-size: 60ch;
+    margin-inline: auto;
+
+    &>li+li {
+      margin-block-start: .75em;
+    }
+
+    li {
+      position: relative;
+      padding-inline-start: var(--space-medium);
+
+      &::marker {
+        content: counter(list-item);
+        color: var(--clr-teal-500);
+      }
+    }
+  }
+
+  /* ORIGINAL */
+  /*
 h1,
 h2,
 h3,
